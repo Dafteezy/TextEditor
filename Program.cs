@@ -49,18 +49,34 @@
         static void Abrir()
         {
             Console.Clear();
+            ExibirCabecalho("Abrir arquivo");
+            
             Console.WriteLine("Qual caminho do arquivo?");
             string path = Console.ReadLine();
 
-            using (var file = new StreamReader(path))
+            if (!ValidarCaminho(path))
             {
-                string text = file.ReadToEnd();
-                Console.WriteLine(text);
+                ExibirMensagem("Caminho inválido ou arquivo não encontrado!", true);
+                return;
+            }
+
+            try
+            {
+                using (var file = new StreamReader(path))
+                {
+                    string text = file.ReadToEnd();
+                    Console.WriteLine("\nConteúdo do arquivo:");
+                    Console.WriteLine("--------------------");
+                    Console.WriteLine(text);
+                }
+            }
+            catch (Exception ex)
+            {
+                ExibirMensagem($"Erro ao abrir arquivo: {ex.Message}", true);
             }
             
-            Console.WriteLine("");
-            Console.ReadLine();
-            Menu();
+            Console.WriteLine("\nPressione qualquer tecla para voltar ao menu...");
+            Console.ReadKey();
         }
 
         static void Editar()
@@ -115,7 +131,27 @@
             Console.WriteLine("====================================");
             Console.WriteLine();
         }
+        
+        static void ExibirMensagem(string mensagem, bool erro)
+        {
+            var corOriginal = Console.ForegroundColor;
+            Console.ForegroundColor = erro ? ConsoleColor.Red : ConsoleColor.Green;
+            Console.WriteLine(mensagem);
+            Console.ForegroundColor = corOriginal;
+            Thread.Sleep(2000);
+        }
 
+        static bool ValidarCaminho(string path)
+        {
+            try
+            {
+                return !string.IsNullOrWhiteSpace(path) && Path.IsPathRooted(path);
+            }
+            catch
+            {
+                return false;
+            }
+        }
         
     }
 }
