@@ -2,27 +2,47 @@
 {
     class Program
     {
+        private static bool _sairDoApp = false;
         static void Main(string[] args)
         {
-            Menu();
+            while (!_sairDoApp)
+            {
+                Menu();
+            }
         }
 
         static void Menu()
         {
             Console.Clear();
+            ExibirCabecalho("EDITOR DE TEXTO");
+            
             Console.WriteLine("Bem vindo ao TextEditor!");
             Console.WriteLine("O que você quer fazer?");
-            Console.WriteLine("1 - Abrir arquivo");
-            Console.WriteLine("2 - Criar arquivo");
+            Console.WriteLine("1 - Abrir arquivo existente");
+            Console.WriteLine("2 - Criar novo arquivo");
             Console.WriteLine("0 - Sair");
-            short option = short.Parse(Console.ReadLine());
-
-            switch(option)
+            Console.WriteLine("---------------------------");
+            
+            if (!short.TryParse(Console.ReadLine(), out short opcao))
             {
-                case 0: System.Environment.Exit(0); break;
-                case 1: Abrir(); break;
-                case 2: Editar(); break;
-                default: Menu(); break;
+                ExibirMensagemErro("Opção inválida!");
+                return;
+            }
+            
+            switch (opcao)
+            {
+                case 0: 
+                    _sairDoApp = true;
+                    break;
+                case 1: 
+                    Abrir();
+                    break;
+                case 2: 
+                    Editar();
+                    break;
+                default:
+                    ExibirMensagemErro("Opção inválida!");
+                    break;
             }
         }
 
@@ -79,5 +99,23 @@
             Console.ReadKey();
             Menu();
         }
+        
+        static void ExibirMensagemErro(string mensagem)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"\nErro: {mensagem}");
+            Console.ResetColor();
+            Thread.Sleep(3000);
+        }
+        
+        static void ExibirCabecalho(string titulo)
+        {
+            Console.WriteLine("====================================");
+            Console.WriteLine($" {titulo}");
+            Console.WriteLine("====================================");
+            Console.WriteLine();
+        }
+
+        
     }
 }
