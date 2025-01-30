@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Menu();
         }
 
         static void Menu()
@@ -19,12 +19,16 @@
 
             switch(option)
             {
-                case: 0 System.Environment.Exit(0); 
+                case: 0 System.Environment.Exit(0);
+                    break;
+                case 1: Abrir(); break;
+                case 2: Editar(); break;
+                default: Menu(); break;
             }
         }
         
-        static void AbrirTextEditor() {}
-        static void FecharTextEditor() {}
+        static void Abrir() {}
+        static void Editar() {}
         
     }
 }
