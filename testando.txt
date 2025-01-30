@@ -1,0 +1,2 @@
+Testando editor de texto.
+gora vou salvar com .txt no fim especificando o caminho path
